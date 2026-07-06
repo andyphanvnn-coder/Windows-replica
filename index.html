@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Windows 10 Mockup</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-dark: #05101c;
+      --bg-panel: rgba(14, 23, 34, 0.96);
+      --bg-panel-2: rgba(22, 33, 49, 0.94);
+      --surface: rgba(255,255,255,0.08);
+      --surface-soft: rgba(255,255,255,0.06);
+      --taskbar: rgba(12, 20, 31, 0.94);
+      --panel-border: rgba(255,255,255,0.08);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #0078d7;
+      --accent-soft: #1d72f0;
+      --wallpaper: radial-gradient(circle at 30% 20%, rgba(0, 138, 255, 0.24), transparent 18%),
+                  radial-gradient(circle at 75% 25%, rgba(0, 222, 255, 0.15), transparent 18%),
+                  linear-gradient(135deg, #03101f 0%, #061520 100%);
+      --shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--wallpaper);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .desktop {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .wallpaper {
+      position: absolute;
+      inset: 0;
+      background: var(--wallpaper);
+      filter: saturate(1.1) contrast(1.05);
+    }
+
+    .desktop-icons {
+      position: absolute;
+      left: 24px;
+      top: 24px;
+      display: grid;
+      gap: 22px;
+      z-index: 5;
+    }
+
+    .desktop-icon {
+      width: 80px;
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: 8px;
+      user-select: none;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .desktop-icon:hover .icon {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .desktop-icon .icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .desktop-icon span {
+      font-size: 12px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .taskbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+      background: var(--taskbar);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      z-index: 10;
+    }
+
+    .taskbar button,
+    .taskbar .taskbar-item {
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.18s ease;
+      font-size: 12px;
+    }
+
+    .taskbar button:hover,
+    .taskbar .taskbar-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .taskbar .start {
+      width: 42px;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .taskbar .search {
+      flex: 1;
+      max-width: 320px;
+      min-width: 180px;
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 8px 12px;
+      gap: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .taskbar .search input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+
+    .pinned-icons {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .taskbar .app-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--surface);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+    }
+
+    .taskbar .clock {
+      min-width: 70px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .taskbar .tray {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .taskbar .tray .tray-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      transition: background 0.18s ease;
+      font-size: 14px;
+      background: var(--surface-soft);
+    }
+
+    .start-menu {
+      position: absolute;
+      left: 22px;
+      bottom: 74px;
+      width: 940px;
+      max-width: calc(100vw - 44px);
+      height: 520px;
+      background: var(--bg-panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 24px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(24px);
+      transition: opacity 0.24s ease, transform 0.24s ease;
+      box-shadow: 0 40px 110px rgba(0,0,0,0.45);
+      backdrop-filter: blur(28px);
+    }
+
+    .start-menu.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: var(--bg-panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 24px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .panel p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .start-group {
+      display: grid;
+      gap: 12px;
+    }
+
+    .start-group-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tile {
+      position: relative;
+      min-height: 90px;
+      border-radius: 18px;
+      color: white;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .tile:hover {
+      transform: translateY(-2px);
+      opacity: 0.96;
+    }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.08);
+      pointer-events: none;
+    }
+
+    .tile span {
+      position: relative;
+      z-index: 1;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .tile.main {
+      grid-column: span 2;
+      min-height: 192px;
+    }
+
+    .tile.blue { background: linear-gradient(135deg, #0078d7, #005ea6); }
+    .tile.green { background: linear-gradient(135deg, #16a34a, #0f8330); }
+    .tile.teal { background: linear-gradient(135deg, #00b7c3, #009fa7); }
+    .tile.purple { background: linear-gradient(135deg, #6d28d9, #4c1d95); }
+    .tile.orange { background: linear-gradient(135deg, #f97316, #c2410c); }
+    .tile.gray { background: #2d3748; }
+
+    .window {
+      position: absolute;
+      top: 60px;
+      left: 80px;
+      width: 780px;
+      max-width: calc(100vw - 100px);
+      height: 520px;
+      background: var(--bg-panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.35);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .window.open {
+      display: flex;
+    }
+
+    .window-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--bg-panel-2);
+      border-bottom: 1px solid var(--panel-border);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .window-header:active {
+      cursor: grabbing;
+    }
+
+    .window-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .window-title .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .window-actions button {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.18s ease;
+      font-size: 16px;
+    }
+
+    .window-actions button:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .window-content {
+      flex: 1;
+      overflow: auto;
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .window-content::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .window-content::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+    }
+
+    .explorer-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .nav-panel, .explorer-panel, .browser-toolbar, .mail-pane {
+      background: var(--bg-panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .nav-panel .nav-item,
+    .mail-list .mail-item,
+    .settings-list .settings-item,
+    .browser-tabs .tab {
+      padding: 12px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.18s ease;
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1px solid var(--panel-border);
+    }
+
+    .nav-panel .nav-item:hover,
+    .mail-list .mail-item:hover,
+    .settings-list .settings-item:hover,
+    .browser-tabs .tab:hover {
+      background: var(--surface);
+    }
+
+    .nav-panel .nav-item.active,
+    .browser-tabs .tab.active,
+    .settings-list .settings-item.active {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .file-card {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-card .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .file-card strong {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .mail-container {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .mail-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mail-preview {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mail-preview h3 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .mail-preview p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .browser-toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .browser-toolbar .tab {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .browser-url {
+      flex: 1;
+      min-width: 180px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .edge-page {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .edge-search-results {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .search-result {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .search-result h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .search-result p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .minecraft-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sandbox-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sandbox-palette button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      outline: none;
+      box-shadow: inset 0 0 0 2px transparent;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+
+    .sandbox-palette button:hover {
+      transform: scale(1.05);
+    }
+
+    .sandbox-palette button.active {
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.9);
+    }
+
+    .sandbox-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #sandboxCanvas {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 18px;
+      background: #111827;
+      display: block;
+      touch-action: none;
+      image-rendering: pixelated;
+      cursor: crosshair;
+    }
+
+    .minecraft-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .minecraft-toolbar button {
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    #minecraftCanvas {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 18px;
+      background: #081218;
+      display: block;
+      touch-action: none;
+    }
+
+    .minecraft-hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .settings-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .settings-card h3 {
+      margin: 0 0 8px;
+      color: var(--text);
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .settings-card .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .settings-card select,
+    .settings-card button.settings-action,
+    .settings-card .toggle-pill {
+      width: 100%;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease;
+    }
+
+    .settings-card .toggle-pill {
+      display: inline-flex;
+      justify-content: center;
+      min-width: 120px;
+      gap: 8px;
+      border-radius: 999px;
+    }
+
+    .settings-card .toggle-pill.active,
+    .settings-card button.settings-action:hover,
+    .settings-card select:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .settings-card .accent-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .settings-card .color-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s ease;
+    }
+
+    .settings-card .color-button.active {
+      border-color: rgba(255,255,255,0.9);
+      transform: scale(1.05);
+    }
+
+    .settings-card .setting-row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .app-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .app-list .app-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .app-list .app-item span {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    @media (max-width: 1080px) {
+      .start-menu {
+        grid-template-columns: 1fr;
+        height: 620px;
+      }
+      .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .start-menu { left: 12px; right: 12px; width: auto; }
+    }
+
+    @media (max-width: 760px) {
+      .desktop-icons { left: 12px; top: 12px; gap: 16px; }
+      .taskbar { padding: 0 8px; }
+      .taskbar .search { display: none; }
+      .taskbar .pinned-icons { display: none; }
+      .taskbar .clock { min-width: 50px; font-size: 11px; }
+      .start-menu { bottom: 64px; height: 580px; }
+      .tile-grid { grid-template-columns: 1fr; }
+      .window { width: calc(100vw - 30px); left: 50%; transform: translateX(-50%); height: calc(100vh - 110px); }
+      .explorer-grid, .mail-container, .settings-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="desktop">
+    <div class="wallpaper"></div>
+
+    <div class="desktop-icons">
+      <div class="desktop-icon" data-open="window-explorer">
+        <div class="icon">🗂️</div>
+        <span>File Explorer</span>
+      </div>
+      <div class="desktop-icon" data-open="window-edge">
+        <div class="icon">🌐</div>
+        <span>Microsoft Edge</span>
+      </div>
+      <div class="desktop-icon" data-open="window-settings">
+        <div class="icon">⚙️</div>
+        <span>Settings</span>
+      </div>
+      <div class="desktop-icon" data-open="window-mail">
+        <div class="icon">✉️</div>
+        <span>Mail</span>
+      </div>
+      <div class="desktop-icon" data-open="window-store">
+        <div class="icon">🛒</div>
+        <span>Microsoft Store</span>
+      </div>
+      <div class="desktop-icon" data-open="window-minecraft">
+        <div class="icon">🟩</div>
+        <span>Minecraft</span>
+      </div>
+      <div class="desktop-icon" data-open="window-sandboxels">
+        <div class="icon">🟪</div>
+        <span>Sandboxels</span>
+      </div>
+    </div>
+
+    <div class="start-menu" id="startMenu">
+      <div class="panel">
+        <div>
+          <h2>Pinned</h2>
+          <p>Jump straight to commonly used apps.</p>
+        </div>
+        <div class="start-group">
+          <div class="start-item" data-open="window-explorer">📁 File Explorer</div>
+          <div class="start-item" data-open="window-edge">🌐 Microsoft Edge</div>
+          <div class="start-item" data-open="window-settings">⚙️ Settings</div>
+          <div class="start-item" data-open="window-mail">✉️ Mail</div>
+          <div class="start-item" data-open="window-store">🛒 Microsoft Store</div>
+          <div class="start-item" data-open="window-minecraft">🟩 Minecraft</div>
+          <div class="start-item" data-open="window-sandboxels">🟪 Sandboxels</div>
+        </div>
+        <div>
+          <h3>Recommended</h3>
+          <div class="start-group">
+            <div class="start-item" data-open="window-calendar">📅 Calendar</div>
+            <div class="start-item" data-open="window-photos">🖼️ Photos</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="tile-grid">
+          <div class="tile blue main" data-open="window-store">
+            <span>Microsoft Store</span>
+            <strong>Shop apps and games</strong>
+          </div>
+          <div class="tile teal" data-open="window-photos">Photos</div>
+          <div class="tile green" data-open="window-calendar">Calendar</div>
+          <div class="tile purple" data-open="window-mail">Mail</div>
+          <div class="tile orange" data-open="window-music">Groove Music</div>
+          <div class="tile gray" data-open="window-settings">Weather</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-explorer">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> File Explorer</div>
+        <div class="window-actions"><button onclick="closeWindow('window-explorer')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="explorer-grid">
+          <div class="nav-panel">
+            <div class="nav-item active">Quick access</div>
+            <div class="nav-item">OneDrive</div>
+            <div class="nav-item">This PC</div>
+            <div class="nav-item">Network</div>
+          </div>
+          <div class="explorer-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap:12px;">
+              <strong>Quick access</strong>
+              <button style="border:none;background:rgba(255,255,255,0.08);color:var(--text);padding:8px 12px;border-radius:999px;cursor:pointer;">New item</button>
+            </div>
+            <div class="files-grid">
+              <div class="file-card"><div class="icon">🖼️</div><strong>Pictures</strong><span>Folder</span></div>
+              <div class="file-card"><div class="icon">🎵</div><strong>Music</strong><span>Folder</span></div>
+              <div class="file-card"><div class="icon">📄</div><strong>Documents</strong><span>Folder</span></div>
+              <div class="file-card"><div class="icon">📦</div><strong>Downloads</strong><span>Folder</span></div>
+              <div class="file-card"><div class="icon">💻</div><strong>This PC</strong><span>Device</span></div>
+              <div class="file-card"><div class="icon">☁️</div><strong>OneDrive</strong><span>Cloud</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-edge">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Microsoft Edge</div>
+        <div class="window-actions"><button onclick="closeWindow('window-edge')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="browser-toolbar">
+          <div class="browser-tabs">
+            <div class="tab active" data-page="new-tab" data-url="https://www.bing.com">New tab</div>
+            <div class="tab" data-page="office" data-url="https://www.office.com">Office</div>
+            <div class="tab" data-page="outlook" data-url="https://outlook.com">Outlook</div>
+            <button id="newEdgeTab" class="tab" style="padding: 0 12px;">＋</button>
+          </div>
+          <input id="edgeSearchInput" class="browser-url" type="text" value="https://www.bing.com" />
+          <button id="edgeSearchButton" style="border:none;background:rgba(255,255,255,0.08);padding:10px 14px;border-radius:14px;color:var(--text);cursor:pointer;">Go</button>
+        </div>
+        <div class="edge-page" id="edgePage">
+          <h3 id="edgePageTitle">New tab</h3>
+          <p id="edgePageDesc">Search the web with Bing or enter a website in the address bar.</p>
+        </div>
+        <div class="edge-search-results" id="edgeSearchResults"></div>
+        <div class="app-list">
+          <div class="app-item"><span>🔍</span><span>Search the web with Bing.</span></div>
+          <div class="app-item"><span>📰</span><span>See the latest news and weather.</span></div>
+          <div class="app-item"><span>🎬</span><span>Explore entertainment and videos.</span></div>
+          <div class="app-item"><span>💼</span><span>Access Office online and work documents.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-settings">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Settings</div>
+        <div class="window-actions"><button onclick="closeWindow('window-settings')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="settings-layout">
+          <div class="settings-list">
+            <div class="settings-item active">System</div>
+            <div class="settings-item">Devices</div>
+            <div class="settings-item">Network & internet</div>
+            <div class="settings-item">Personalization</div>
+            <div class="settings-item">Accounts</div>
+          </div>
+          <div class="settings-card">
+            <h3>System</h3>
+            <div class="setting-row"><span>Display</span><span class="pill">Recommended</span></div>
+            <div class="setting-row"><span>Sound</span><span class="pill">On</span></div>
+            <div class="setting-row"><span>Notifications</span><span class="pill">Most</span></div>
+            <div class="setting-row"><span>Power & sleep</span><span class="pill">Balanced</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-mail">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Mail</div>
+        <div class="window-actions"><button onclick="closeWindow('window-mail')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="mail-container">
+          <div class="mail-list">
+            <div class="mail-item"><strong>Welcome to Windows</strong><p>Start using Mail with one account.</p></div>
+            <div class="mail-item"><strong>Weekly update</strong><p>Your apps have been updated.</p></div>
+            <div class="mail-item"><strong>Security alert</strong><p>Review your sign-in activity.</p></div>
+          </div>
+          <div class="mail-preview">
+            <h3>Welcome to Windows</h3>
+            <p>Get the most out of your desktop with apps, tips, and updates. Browse the Start menu to open apps and use the search bar to look for files or websites.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-store">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Microsoft Store</div>
+        <div class="window-actions"><button onclick="closeWindow('window-store')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="app-list">
+          <div class="app-item"><span>🎮</span><span>Xbox app — play and manage games.</span></div>
+          <div class="app-item"><span>🎵</span><span>Groove Music — listen to your playlists.</span></div>
+          <div class="app-item" data-open="window-minecraft"><span>🟩</span><span>Minecraft — play the popular sandbox game.</span></div>
+          <div class="app-item" data-open="window-sandboxels"><span>🟪</span><span>Sandboxels — draw pixels and play with colors.</span></div>
+          <div class="app-item"><span>📷</span><span>Photos — view and organize pictures.</span></div>
+          <div class="app-item"><span>🛍️</span><span>Shop the latest apps and utilities.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-minecraft">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Minecraft</div>
+        <div class="window-actions"><button onclick="closeWindow('window-minecraft')">✕</button></div>
+      </div>
+      <div class="window-content">
+        <div class="minecraft-panel">
+          <div class="minecraft-toolbar">
+            <button id="minecraftNewWorld">New World</button>
+            <div class="minecraft-hint">Use WASD or arrow keys to move. Space toggles blocks.</div>
+          </div>
+          <canvas id="minecraftCanvas" width="480" height="288"></canvas>
+          <div class="minecraft-hint">Press R to reset world.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-sandboxels">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Sandboxels</div>
+        <div class="window-actions"><button onclick="closeWindow('window-sandboxels')">✕</button></div>
+      </div>
+      <div class="window-content">
+        <div class="minecraft-panel">
+          <div class="minecraft-toolbar sandbox-toolbar">
+            <div style="display:flex; gap:10px; flex-wrap: wrap; align-items:center;">
+              <strong style="color:var(--text);">Palette</strong>
+              <div class="sandbox-palette"></div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap: wrap; align-items:center;">
+              <button id="sandboxClear" style="min-width: 84px;">Clear</button>
+              <button id="sandboxEraser" style="min-width: 84px;">Eraser</button>
+              <button id="sandboxSave" style="min-width: 84px;">Save</button>
+              <span class="minecraft-hint">Click or drag to paint.</span>
+            </div>
+          </div>
+          <canvas id="sandboxCanvas" width="768" height="504"></canvas>
+          <div class="minecraft-hint">Use the palette to draw pixel art. Press Save to download.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-calendar">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Calendar</div>
+        <div class="window-actions"><button onclick="closeWindow('window-calendar')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="settings-card">
+          <h3>Today</h3>
+          <div class="setting-row"><span>Team meeting</span><span>11:00 AM</span></div>
+          <div class="setting-row"><span>Lunch</span><span>1:00 PM</span></div>
+          <div class="setting-row"><span>Project review</span><span>3:30 PM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-photos">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Photos</div>
+        <div class="window-actions"><button onclick="closeWindow('window-photos')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="app-list">
+          <div class="app-item"><span>📸</span><span>Recent photos</span></div>
+          <div class="app-item"><span>🌄</span><span>Albums</span></div>
+          <div class="app-item"><span>✨</span><span>Collections</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="window-music">
+      <div class="window-header">
+        <div class="window-title"><span class="dot"></span> Groove Music</div>
+        <div class="window-actions"><button onclick="closeWindow('window-music')">?</button></div>
+      </div>
+      <div class="window-content">
+        <div class="app-list">
+          <div class="app-item"><span>🎧</span><span>Recently played</span></div>
+          <div class="app-item"><span>🎼</span><span>My playlists</span></div>
+          <div class="app-item"><span>🔥</span><span>Top tracks</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taskbar">
+      <button class="start" id="startButton" aria-label="Start">■</button>
+      <div class="search" id="searchBar">
+        <span>🔍</span>
+        <input id="searchInput" type="text" placeholder="Type here to search" />
+      </div>
+      <div class="pinned-icons">
+        <button class="taskbar-item app-icon" data-open="window-explorer">🗂️</button>
+        <button class="taskbar-item app-icon" data-open="window-edge">🌐</button>
+        <button class="taskbar-item app-icon" data-open="window-mail">✉️</button>
+      </div>
+      <div class="tray">
+        <div class="tray-icon">🔔</div>
+        <div class="tray-icon">🔊</div>
+        <div class="tray-icon">🔋</div>
+      </div>
+      <div class="clock" id="clock">12:45 PM</div>
+    </div>
+  </div>
+
+  <script>
+    const startButton = document.getElementById('startButton');
+    const startMenu = document.getElementById('startMenu');
+    const searchInput = document.getElementById('searchInput');
+    const clockEl = document.getElementById('clock');
+    const desktopIcons = document.querySelectorAll('.desktop-icon');
+    const startItems = document.querySelectorAll('.start-item');
+    const storeItems = document.querySelectorAll('.app-item[data-open]');
+    const taskbarButtons = document.querySelectorAll('.taskbar-item[data-open], .app-icon[data-open]');
+    const edgeTabContainer = document.querySelector('.browser-tabs');
+    const edgeSearchInput = document.getElementById('edgeSearchInput');
+    const edgeSearchButton = document.getElementById('edgeSearchButton');
+    const edgePageTitle = document.getElementById('edgePageTitle');
+    const edgePageDesc = document.getElementById('edgePageDesc');
+    const edgeSearchResults = document.getElementById('edgeSearchResults');
+    const minecraftCanvas = document.getElementById('minecraftCanvas');
+    const minecraftCtx = minecraftCanvas ? minecraftCanvas.getContext('2d') : null;
+    const minecraftNewWorld = document.getElementById('minecraftNewWorld');
+    const sandboxCanvas = document.getElementById('sandboxCanvas');
+    const sandboxClear = document.getElementById('sandboxClear');
+    const sandboxEraser = document.getElementById('sandboxEraser');
+    const sandboxSave = document.getElementById('sandboxSave');
+    const sandboxPalette = document.querySelector('.sandbox-palette');
+    const settingsItems = document.querySelectorAll('.settings-item');
+    const settingsCard = document.querySelector('#window-settings .settings-card');
+    const desktopIconsContainer = document.querySelector('.desktop-icons');
+    const currentSettings = {
+      theme: 'dark',
+      accent: 'blue',
+      wallpaper: 'default',
+      desktopIcons: 'on'
+    };
+    const settingsSections = {
+      'System': `
+        <h3>System</h3>
+        <div class="setting-row"><span>Theme</span><select data-setting="theme"><option value="dark">Dark</option><option value="light">Light</option></select></div>
+        <div class="setting-row"><span>Accent color</span><div class="accent-options">
+            <button class="color-button" data-setting="accent" data-value="blue" style="background:#0078d7"></button>
+            <button class="color-button" data-setting="accent" data-value="purple" style="background:#a855f7"></button>
+            <button class="color-button" data-setting="accent" data-value="green" style="background:#10b981"></button>
+            <button class="color-button" data-setting="accent" data-value="orange" style="background:#f97316"></button>
+          </div></div>
+        <div class="setting-row"><span>Wallpaper</span><select data-setting="wallpaper"><option value="default">Blue</option><option value="night">Night</option><option value="sunrise">Sunrise</option></select></div>
+        <div class="setting-row"><span>Desktop icons</span><select data-setting="desktopIcons"><option value="on">On</option><option value="off">Off</option></select></div>
+      `,
+      'Devices': `
+        <h3>Devices</h3>
+        <div class="setting-row"><span>Bluetooth</span><span class="pill">Off</span></div>
+        <div class="setting-row"><span>Printers</span><span class="pill">2 connected</span></div>
+        <div class="setting-row"><span>Mouse</span><span class="pill">Default</span></div>
+        <div class="setting-row"><span>Typing</span><span class="pill">Enabled</span></div>
+      `,
+      'Network & internet': `
+        <h3>Network & internet</h3>
+        <div class="setting-row"><span>Wi-Fi</span><span class="pill">Connected</span></div>
+        <div class="setting-row"><span>VPN</span><span class="pill">Not connected</span></div>
+        <div class="setting-row"><span>Mobile data</span><span class="pill">Off</span></div>
+        <div class="setting-row"><span>Airplane mode</span><span class="pill">Off</span></div>
+      `,
+      'Personalization': `
+        <h3>Personalization</h3>
+        <div class="setting-row"><span>Accent color</span><div class="accent-options">
+            <button class="color-button" data-setting="accent" data-value="blue" style="background:#0078d7"></button>
+            <button class="color-button" data-setting="accent" data-value="purple" style="background:#a855f7"></button>
+            <button class="color-button" data-setting="accent" data-value="green" style="background:#10b981"></button>
+            <button class="color-button" data-setting="accent" data-value="orange" style="background:#f97316"></button>
+          </div></div>
+        <div class="setting-row"><span>Wallpaper</span><select data-setting="wallpaper"><option value="default">Blue</option><option value="night">Night</option><option value="sunrise">Sunrise</option></select></div>
+      `,
+      'Accounts': `
+        <h3>Accounts</h3>
+        <div class="setting-row"><span>Your info</span><span class="pill">Local account</span></div>
+        <div class="setting-row"><span>Email & accounts</span><span class="pill">1 account</span></div>
+        <div class="setting-row"><span>Sign-in options</span><span class="pill">Password</span></div>
+        <div class="setting-row"><span>Family & other users</span><span class="pill">None</span></div>
+      `
+    };
+    let edgeTabCounter = 1;
+    let minecraftWorld = [];
+    let minecraftPlayer = { x: 10, y: 6 };
+    let minecraftStarted = false;
+    const minecraftTileSize = 24;
+    const minecraftTiles = {
+      sky: '#081218',
+      grass: '#4a8b2d',
+      dirt: '#7b5f3f',
+      tree: '#2a6b22',
+      trunk: '#5b3b22',
+      stone: '#7a7a7a',
+      player: '#f7da6d'
+    };
+
+    const sandboxCols = 32;
+    const sandboxRows = 21;
+    const sandboxCell = 24;
+    const sandboxColors = ['#111827', '#ffffff', '#ff5c5c', '#ffbd4a', '#fff46d', '#6ee7b7', '#7dd3fc', '#a78bfa', '#ff96ff', '#8b8b8b'];
+    let sandboxGrid = [];
+    let sandboxColor = sandboxColors[1];
+    let sandboxTool = 'paint';
+    let sandboxStarted = false;
+    let sandboxMouseDown = false;
+
+    function applyThemeMode(mode) {
+      currentSettings.theme = mode;
+      if (mode === 'light') {
+        document.documentElement.style.setProperty('--bg-dark', '#f5f7fb');
+        document.documentElement.style.setProperty('--bg-panel', 'rgba(245,247,251,0.96)');
+        document.documentElement.style.setProperty('--bg-panel-2', 'rgba(225,230,241,0.94)');
+        document.documentElement.style.setProperty('--taskbar', 'rgba(255,255,255,0.92)');
+        document.documentElement.style.setProperty('--panel-border', 'rgba(0,0,0,0.08)');
+        document.documentElement.style.setProperty('--text', '#111827');
+        document.documentElement.style.setProperty('--muted', '#6b7280');
+        document.documentElement.style.setProperty('--shadow', '0 24px 80px rgba(0,0,0,0.12)');
+      } else {
+        document.documentElement.style.setProperty('--bg-dark', '#05101c');
+        document.documentElement.style.setProperty('--bg-panel', 'rgba(14, 23, 34, 0.96)');
+        document.documentElement.style.setProperty('--bg-panel-2', 'rgba(22, 33, 49, 0.94)');
+        document.documentElement.style.setProperty('--taskbar', 'rgba(12, 20, 31, 0.94)');
+        document.documentElement.style.setProperty('--panel-border', 'rgba(255,255,255,0.08)');
+        document.documentElement.style.setProperty('--text', '#e5e7eb');
+        document.documentElement.style.setProperty('--muted', '#9ca3af');
+        document.documentElement.style.setProperty('--shadow', '0 24px 80px rgba(0,0,0,0.35)');
+      }
+    }
+
+    function applyAccentColor(color) {
+      currentSettings.accent = color;
+      const accents = {
+        blue: ['#0078d7', '#1d72f0'],
+        purple: ['#a855f7', '#7c3aed'],
+        green: ['#10b981', '#22c55e'],
+        orange: ['#f97316', '#fb923c']
+      };
+      const [main, soft] = accents[color] || accents.blue;
+      document.documentElement.style.setProperty('--accent', main);
+      document.documentElement.style.setProperty('--accent-soft', soft);
+    }
+
+    function applyWallpaper(style) {
+      currentSettings.wallpaper = style;
+      let wallpaperValue = '';
+      if (style === 'night') {
+        wallpaperValue = 'radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.18), transparent 18%), radial-gradient(circle at 80% 10%, rgba(168, 85, 247, 0.16), transparent 14%), linear-gradient(135deg, #020819 0%, #061422 100%)';
+      } else if (style === 'sunrise') {
+        wallpaperValue = 'radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.18), transparent 18%), radial-gradient(circle at 70% 25%, rgba(234, 179, 8, 0.15), transparent 18%), linear-gradient(135deg, #10131d 0%, #2e2e5b 100%)';
+      } else {
+        wallpaperValue = 'radial-gradient(circle at 30% 20%, rgba(0, 138, 255, 0.24), transparent 18%), radial-gradient(circle at 75% 25%, rgba(0, 222, 255, 0.15), transparent 18%), linear-gradient(135deg, #03101f 0%, #061520 100%)';
+      }
+      document.documentElement.style.setProperty('--wallpaper', wallpaperValue);
+    }
+
+    function setDesktopIconsState(value) {
+      currentSettings.desktopIcons = value;
+      if (desktopIconsContainer) {
+        desktopIconsContainer.style.display = value === 'on' ? 'grid' : 'none';
+      }
+    }
+
+    function setupSettingsControls() {
+      if (!settingsCard) return;
+      const controls = settingsCard.querySelectorAll('[data-setting]');
+      controls.forEach(control => {
+        const setting = control.dataset.setting;
+        if (control.tagName === 'SELECT') {
+          control.value = currentSettings[setting];
+          control.onchange = () => applySetting(setting, control.value);
+        } else if (control.classList.contains('color-button')) {
+          control.onclick = () => applySetting(setting, control.dataset.value);
+          control.classList.toggle('active', currentSettings[setting] === control.dataset.value);
+        }
+      });
+    }
+
+    function applySetting(name, value) {
+      if (name === 'theme') applyThemeMode(value);
+      if (name === 'accent') applyAccentColor(value);
+      if (name === 'wallpaper') applyWallpaper(value);
+      if (name === 'desktopIcons') setDesktopIconsState(value);
+      setupSettingsControls();
+    }
+
+    applyThemeMode(currentSettings.theme);
+    applyAccentColor(currentSettings.accent);
+    applyWallpaper(currentSettings.wallpaper);
+    setDesktopIconsState(currentSettings.desktopIcons);
+
+    function updateClock() {
+      const now = new Date();
+      const options = { hour: 'numeric', minute: '2-digit' };
+      clockEl.textContent = now.toLocaleTimeString([], options);
+    }
+
+    function setSettingsSection(section) {
+      if (!settingsCard || !settingsSections[section]) return;
+      settingsItems.forEach(item => item.classList.toggle('active', item.textContent.trim() === section));
+      settingsCard.innerHTML = settingsSections[section];
+      setupSettingsControls();
+    }
+
+    function openWindow(id) {
+      const win = document.getElementById(id);
+      if (!win) return;
+      win.classList.add('open');
+      win.style.zIndex = 30;
+      if (id === 'window-minecraft' && !minecraftStarted) {
+        initMinecraft();
+      }
+      if (id === 'window-sandboxels' && !sandboxStarted) {
+        initSandboxels();
+      }
+      if (id === 'window-settings') {
+        setSettingsSection('System');
+      }
+      document.querySelectorAll('.window').forEach(el => {
+        if (el !== win) el.style.zIndex = 25;
+      });
+    }
+
+    function closeWindow(id) {
+      const win = document.getElementById(id);
+      if (!win) return;
+      win.classList.remove('open');
+    }
+
+    function performSearch(query) {
+      if (!query.trim()) return;
+      const url = `https://www.bing.com/search?q=${encodeURIComponent(query.trim())}`;
+      window.open(url, '_blank');
+    }
+
+    function initSandboxels() {
+      if (!sandboxCanvas) return;
+      sandboxCanvas.width = sandboxCols * sandboxCell;
+      sandboxCanvas.height = sandboxRows * sandboxCell;
+      sandboxGrid = Array.from({ length: sandboxRows }, () => Array(sandboxCols).fill(sandboxColors[0]));
+      sandboxColor = sandboxColors[1];
+      sandboxStarted = true;
+      renderSandboxPalette();
+      drawSandbox();
+    }
+
+    function renderSandboxPalette() {
+      if (!sandboxPalette) return;
+      sandboxPalette.innerHTML = '';
+      sandboxColors.forEach(color => {
+        const button = document.createElement('button');
+        button.style.background = color;
+        button.className = sandboxTool === 'paint' && color === sandboxColor ? 'active' : '';
+        button.addEventListener('click', () => {
+          sandboxColor = color;
+          sandboxTool = 'paint';
+          renderSandboxPalette();
+          if (sandboxEraser) sandboxEraser.classList.remove('active');
+        });
+        sandboxPalette.appendChild(button);
+      });
+    }
+
+    function drawSandbox() {
+      if (!sandboxCanvas) return;
+      const ctx = sandboxCanvas.getContext('2d');
+      ctx.fillStyle = sandboxColors[0];
+      ctx.fillRect(0, 0, sandboxCanvas.width, sandboxCanvas.height);
+      for (let y = 0; y < sandboxRows; y++) {
+        for (let x = 0; x < sandboxCols; x++) {
+          ctx.fillStyle = sandboxGrid[y][x];
+          ctx.fillRect(x * sandboxCell, y * sandboxCell, sandboxCell, sandboxCell);
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.strokeRect(x * sandboxCell, y * sandboxCell, sandboxCell, sandboxCell);
+        }
+      }
+    }
+
+    function paintSandboxCell(x, y) {
+      if (!sandboxStarted || x < 0 || x >= sandboxCols || y < 0 || y >= sandboxRows) return;
+      sandboxGrid[y][x] = sandboxTool === 'erase' ? sandboxColors[0] : sandboxColor;
+      drawSandbox();
+    }
+
+    function sandboxPointer(event) {
+      if (!sandboxCanvas || !sandboxStarted) return;
+      const rect = sandboxCanvas.getBoundingClientRect();
+      const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+      const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+      const scaleX = sandboxCanvas.width / rect.width;
+      const scaleY = sandboxCanvas.height / rect.height;
+      const x = Math.floor((clientX - rect.left) * scaleX / sandboxCell);
+      const y = Math.floor((clientY - rect.top) * scaleY / sandboxCell);
+      paintSandboxCell(x, y);
+    }
+
+    function clearSandbox() {
+      sandboxGrid = Array.from({ length: sandboxRows }, () => Array(sandboxCols).fill(sandboxColors[0]));
+      drawSandbox();
+    }
+
+    function saveSandbox() {
+      if (!sandboxCanvas) return;
+      const link = document.createElement('a');
+      link.href = sandboxCanvas.toDataURL('image/png');
+      link.download = 'sandboxels.png';
+      link.click();
+    }
+
+    function normalizeEdgeUrl(input) {
+      const value = input.trim();
+      if (!value) return 'https://www.bing.com';
+      if (/^https?:\/\//i.test(value)) {
+        return value;
+      }
+      return `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
+    }
+
+    function edgePageLabel(url) {
+      if (url.includes('bing.com/search')) {
+        const query = new URL(url).searchParams.get('q') || 'search';
+        return `Search: ${query}`;
+      }
+      if (url.includes('office.com')) return 'Office';
+      if (url.includes('outlook.com')) return 'Outlook';
+      if (url.includes('bing.com')) return 'Bing';
+      return url.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace('www.', '') || 'New tab';
+    }
+
+    function renderEdgePage(url) {
+      edgeSearchResults.innerHTML = '';
+      if (url.includes('bing.com/search')) {
+        const query = new URL(url).searchParams.get('q') || '';
+        edgePageTitle.textContent = `Search results for “${query}”`;
+        edgePageDesc.textContent = `Showing mock results for your query. Click a result to visit it.`;
+        const results = [
+          { title: `Bing search for ${query}`, description: `This is a mock search result page for ${query}.` },
+          { title: `Learn more about ${query}`, description: `Find articles, videos, and web pages related to ${query}.` },
+          { title: `Latest news about ${query}`, description: `Stay up to date with the latest headlines about ${query}.` }
+        ];
+        results.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'search-result';
+          card.innerHTML = `<h4>${item.title}</h4><p>${item.description}</p>`;
+          edgeSearchResults.appendChild(card);
+        });
+      } else if (url.includes('office.com')) {
+        edgePageTitle.textContent = 'Office';
+        edgePageDesc.textContent = 'Access Microsoft 365 online apps and documents from the web.';
+      } else if (url.includes('outlook.com')) {
+        edgePageTitle.textContent = 'Outlook';
+        edgePageDesc.textContent = 'Open your mail, calendar, and people in the Outlook web app.';
+      } else if (url.includes('bing.com')) {
+        edgePageTitle.textContent = 'Bing';
+        edgePageDesc.textContent = 'Search the web with Bing or use the address bar to navigate to a site.';
+      } else {
+        edgePageTitle.textContent = edgePageLabel(url);
+        edgePageDesc.textContent = `You are viewing a mock page for ${url}.`;
+      }
+    }
+
+    function setEdgeTab(tab) {
+      edgeTabContainer.querySelectorAll('.tab').forEach(node => node.classList.toggle('active', node === tab));
+      const url = normalizeEdgeUrl(tab.dataset.url || 'https://www.bing.com');
+      edgeSearchInput.value = url;
+      tab.dataset.url = url;
+      if (tab.dataset.page === 'new-tab') {
+        edgePageTitle.textContent = 'New tab';
+        edgePageDesc.textContent = 'Search the web with Bing or enter a website in the address bar.';
+      } else {
+        renderEdgePage(url);
+      }
+    }
+
+    function initMinecraft() {
+      if (!minecraftCanvas || !minecraftCtx) return;
+      minecraftCanvas.width = 20 * minecraftTileSize;
+      minecraftCanvas.height = 12 * minecraftTileSize;
+      minecraftPlayer = { x: 10, y: 6 };
+      generateMinecraftWorld();
+      drawMinecraft();
+      minecraftStarted = true;
+    }
+
+    function generateMinecraftWorld() {
+      minecraftWorld = [];
+      for (let y = 0; y < 12; y++) {
+        const row = [];
+        for (let x = 0; x < 20; x++) {
+          if (y >= 9) row.push('dirt');
+          else if (y === 8) row.push('grass');
+          else row.push('sky');
+        }
+        minecraftWorld.push(row);
+      }
+      for (let i = 0; i < 5; i++) {
+        const px = 2 + Math.floor(Math.random() * 16);
+        for (let ty = 7; ty >= 5; ty--) {
+          minecraftWorld[ty][px] = 'tree';
+        }
+        minecraftWorld[8][px] = 'trunk';
+      }
+      for (let i = 0; i < 10; i++) {
+        const px = 1 + Math.floor(Math.random() * 18);
+        const py = 9 + Math.floor(Math.random() * 2);
+        minecraftWorld[py][px] = 'stone';
+      }
+    }
+
+    function drawMinecraft() {
+      if (!minecraftCtx) return;
+      for (let y = 0; y < 12; y++) {
+        for (let x = 0; x < 20; x++) {
+          const tile = minecraftWorld[y][x];
+          minecraftCtx.fillStyle = minecraftTiles[tile] || minecraftTiles.sky;
+          minecraftCtx.fillRect(x * minecraftTileSize, y * minecraftTileSize, minecraftTileSize, minecraftTileSize);
+          if (tile === 'grass') {
+            minecraftCtx.fillStyle = '#57a32f';
+            minecraftCtx.fillRect(x * minecraftTileSize, y * minecraftTileSize, minecraftTileSize, minecraftTileSize / 3);
+          }
+        }
+      }
+      minecraftCtx.fillStyle = minecraftTiles.player;
+      minecraftCtx.fillRect(minecraftPlayer.x * minecraftTileSize + 4, minecraftPlayer.y * minecraftTileSize + 4, minecraftTileSize - 8, minecraftTileSize - 8);
+    }
+
+
+    function minecraftMove(dx, dy) {
+      if (!minecraftStarted) initMinecraft();
+      const nx = minecraftPlayer.x + dx;
+      const ny = minecraftPlayer.y + dy;
+      if (nx < 0 || nx >= 20 || ny < 0 || ny >= 12) return;
+      minecraftPlayer.x = nx;
+      minecraftPlayer.y = ny;
+      drawMinecraft();
+    }
+
+    function minecraftToggleBlock() {
+      const tile = minecraftWorld[minecraftPlayer.y][minecraftPlayer.x];
+      if (tile === 'sky') minecraftWorld[minecraftPlayer.y][minecraftPlayer.x] = 'grass';
+      else if (tile === 'grass' || tile === 'dirt') minecraftWorld[minecraftPlayer.y][minecraftPlayer.x] = 'sky';
+      drawMinecraft();
+    }
+
+    function createEdgeTab(input = 'https://www.bing.com') {
+      const url = normalizeEdgeUrl(input);
+      edgeTabCounter += 1;
+      const tab = document.createElement('div');
+      tab.className = 'tab';
+      tab.dataset.page = `tab-${edgeTabCounter}`;
+      tab.dataset.url = url;
+      tab.textContent = edgePageLabel(url);
+      edgeTabContainer.insertBefore(tab, document.getElementById('newEdgeTab'));
+      setEdgeTab(tab);
+    }
+
+    edgeTabContainer.addEventListener('click', event => {
+      const tab = event.target.closest('.tab');
+      if (!tab) return;
+      if (tab.id === 'newEdgeTab') {
+        createEdgeTab();
+        return;
+      }
+      setEdgeTab(tab);
+    });
+
+    edgeSearchButton.addEventListener('click', () => {
+      createEdgeTab(edgeSearchInput.value.trim() || 'https://www.bing.com');
+    });
+
+    edgeSearchInput.addEventListener('keypress', event => {
+      if (event.key === 'Enter') {
+        createEdgeTab(edgeSearchInput.value.trim() || 'https://www.bing.com');
+      }
+    });
+
+    edgeTabContainer.addEventListener('dblclick', event => {
+      const tab = event.target.closest('.tab');
+      if (!tab || tab.id === 'newEdgeTab') return;
+      const url = normalizeEdgeUrl(tab.dataset.url || edgeSearchInput.value);
+      edgeSearchInput.value = url;
+      renderEdgePage(url);
+    });
+
+    if (minecraftNewWorld) {
+      minecraftNewWorld.addEventListener('click', () => initMinecraft());
+    }
+    if (sandboxClear) {
+      sandboxClear.addEventListener('click', clearSandbox);
+    }
+    if (sandboxEraser) {
+      sandboxEraser.addEventListener('click', () => {
+        sandboxTool = 'erase';
+        sandboxEraser.classList.add('active');
+        renderSandboxPalette();
+      });
+    }
+    if (sandboxSave) {
+      sandboxSave.addEventListener('click', saveSandbox);
+    }
+    if (sandboxCanvas) {
+      sandboxCanvas.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        sandboxMouseDown = true;
+        sandboxPointer(event);
+        sandboxCanvas.setPointerCapture(event.pointerId);
+      });
+      sandboxCanvas.addEventListener('pointermove', event => {
+        if (sandboxMouseDown) sandboxPointer(event);
+      });
+      sandboxCanvas.addEventListener('pointerup', () => { sandboxMouseDown = false; });
+      sandboxCanvas.addEventListener('pointercancel', () => { sandboxMouseDown = false; });
+      sandboxCanvas.addEventListener('contextmenu', event => event.preventDefault());
+    }
+
+    window.addEventListener('keydown', event => {
+      if (!document.getElementById('window-minecraft').classList.contains('open')) return;
+      const active = document.activeElement;
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
+      switch (event.key) {
+        case 'ArrowUp':
+        case 'w':
+        case 'W':
+          minecraftMove(0, -1);
+          event.preventDefault();
+          break;
+        case 'ArrowDown':
+        case 's':
+        case 'S':
+          minecraftMove(0, 1);
+          event.preventDefault();
+          break;
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+          minecraftMove(-1, 0);
+          event.preventDefault();
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+          minecraftMove(1, 0);
+          event.preventDefault();
+          break;
+        case ' ':
+          minecraftToggleBlock();
+          event.preventDefault();
+          break;
+        case 'r':
+        case 'R':
+          initMinecraft();
+          event.preventDefault();
+          break;
+      }
+    });
+
+    if (minecraftCanvas) {
+      minecraftCanvas.addEventListener('click', event => {
+        const rect = minecraftCanvas.getBoundingClientRect();
+        const x = Math.floor((event.clientX - rect.left) / minecraftTileSize);
+        const y = Math.floor((event.clientY - rect.top) / minecraftTileSize);
+        if (x >= 0 && x < 20 && y >= 0 && y < 12) {
+          minecraftPlayer = { x, y };
+          minecraftToggleBlock();
+        }
+      });
+      minecraftCanvas.addEventListener('touchstart', event => {
+        const touch = event.touches[0];
+        const rect = minecraftCanvas.getBoundingClientRect();
+        const x = Math.floor((touch.clientX - rect.left) / minecraftTileSize);
+        const y = Math.floor((touch.clientY - rect.top) / minecraftTileSize);
+        if (x >= 0 && x < 20 && y >= 0 && y < 12) {
+          minecraftPlayer = { x, y };
+          minecraftToggleBlock();
+        }
+        event.preventDefault();
+      }, { passive: false });
+    }
+
+    let dragInfo = null;
+
+    function initWindowDrag() {
+      document.querySelectorAll('.window').forEach(win => {
+        const header = win.querySelector('.window-header');
+        header.addEventListener('mousedown', event => {
+          if (event.button !== 0) return;
+          const rect = win.getBoundingClientRect();
+          dragInfo = {
+            pointerType: 'mouse',
+            win,
+            startX: event.clientX,
+            startY: event.clientY,
+            origLeft: rect.left,
+            origTop: rect.top
+          };
+          document.body.style.userSelect = 'none';
+          win.style.zIndex = 31;
+          event.preventDefault();
+        });
+
+        header.addEventListener('touchstart', event => {
+          const touch = event.touches[0];
+          const rect = win.getBoundingClientRect();
+          dragInfo = {
+            pointerType: 'touch',
+            win,
+            startX: touch.clientX,
+            startY: touch.clientY,
+            origLeft: rect.left,
+            origTop: rect.top
+          };
+          document.body.style.userSelect = 'none';
+          win.style.zIndex = 31;
+          event.preventDefault();
+        }, { passive: false });
+      });
+    }
+
+    document.addEventListener('mousemove', event => {
+      if (!dragInfo || dragInfo.pointerType !== 'mouse') return;
+      const deltaX = event.clientX - dragInfo.startX;
+      const deltaY = event.clientY - dragInfo.startY;
+      dragInfo.win.style.left = `${Math.max(16, dragInfo.origLeft + deltaX)}px`;
+      dragInfo.win.style.top = `${Math.max(16, dragInfo.origTop + deltaY)}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!dragInfo || dragInfo.pointerType !== 'mouse') return;
+      dragInfo = null;
+      document.body.style.userSelect = '';
+    });
+
+    document.addEventListener('touchmove', event => {
+      if (!dragInfo || dragInfo.pointerType !== 'touch') return;
+      event.preventDefault();
+      const touch = event.touches[0];
+      const deltaX = touch.clientX - dragInfo.startX;
+      const deltaY = touch.clientY - dragInfo.startY;
+      dragInfo.win.style.left = `${Math.max(16, dragInfo.origLeft + deltaX)}px`;
+      dragInfo.win.style.top = `${Math.max(16, dragInfo.origTop + deltaY)}px`;
+    }, { passive: false });
+
+    document.addEventListener('touchend', () => {
+      if (!dragInfo || dragInfo.pointerType !== 'touch') return;
+      dragInfo = null;
+      document.body.style.userSelect = '';
+    });
+
+    desktopIcons.forEach(icon => {
+      icon.addEventListener('dblclick', () => {
+        openWindow(icon.dataset.open);
+        startMenu.classList.remove('open');
+      });
+    });
+
+    startItems.forEach(item => {
+      item.addEventListener('click', () => openWindow(item.dataset.open));
+    });
+
+    storeItems.forEach(item => {
+      item.addEventListener('click', () => openWindow(item.dataset.open));
+    });
+
+    taskbarButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.open;
+        const win = document.getElementById(id);
+        if (win.classList.contains('open')) {
+          closeWindow(id);
+        } else {
+          openWindow(id);
+        }
+      });
+    });
+
+    settingsItems.forEach(item => {
+      item.addEventListener('click', () => {
+        setSettingsSection(item.textContent.trim());
+      });
+    });
+
+    searchInput.addEventListener('keypress', event => {
+      if (event.key === 'Enter') {
+        performSearch(searchInput.value);
+      }
+    });
+
+    startButton.addEventListener('click', () => {
+      startMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', event => {
+      if (!startMenu.contains(event.target) && !startButton.contains(event.target) && !event.target.closest('.start-item')) {
+        startMenu.classList.remove('open');
+      }
+    });
+
+    initWindowDrag();
+    updateClock();
+    setInterval(updateClock, 60000);
+  </script>
+</body>
+</html>
